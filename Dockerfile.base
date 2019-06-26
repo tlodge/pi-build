@@ -1,0 +1,19 @@
+FROM arm64v8/alpine:3.8
+
+RUN addgroup -S databox && adduser -S -g databox databox && \
+apk --no-cache add build-base pkgconfig nodejs npm libzmq zeromq-dev libsodium-dev python sudo && \
+cd /home/databox && sudo -u databox npm install zeromq@4.6.0 --zmq-external && \
+apk del build-base pkgconfig libsodium-dev python zeromq-dev sudo
+RUN apk add git
+
+USER databox
+WORKDIR /home/databox
+RUN cp -R /home/databox/node_modules /home/databox/tmp_modules
+RUN mkdir -p data/nodes
+
+COPY package.json /home/databox/package.json
+RUN npm install
+RUN cp -R tmp_modules/* node_modules/
+RUN rm -rf tmp_modules
+COPY conf/Node.js /home/databox/node_modules/node-red/red/runtime/nodes/
+COPY conf/settings.js data

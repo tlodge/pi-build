@@ -1,0 +1,6 @@
+FROM tlodge/red-base-arm64
+USER databox
+WORKDIR /home/databox
+RUN git clone https://github.com/me-box/sdk-app-webserver.git
+RUN mkdir ./sdk-app-webserver/server/node_modules && cp -R /home/databox/node_modules/zeromq ./sdk-app-webserver/server/node_modules && cd ./sdk-app-webserver/server && npm install && npm run build
+COPY start.sh .
