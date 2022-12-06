@@ -11,7 +11,7 @@
   "dependencies": {
     "moment": "^2.24.0",
     "node-ipc": "^8.10.3",
-    "node-red": "0.16.2",
+    "node-red": "3.0.2",
     "node-databox":"^0.10.6"
   }
 }
